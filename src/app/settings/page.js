@@ -425,7 +425,7 @@ export default function SettingsPage() {
                   </div>
 
                   {/* Accent Palette Selector */}
-                  <div className="mb-10 pb-8 border-b border-white/5">
+                  <div>
                     <label className="block text-xs font-black uppercase tracking-widest text-muted-foreground mb-4">Theme Accent Color</label>
                     <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
                       {themes.map(t => (
@@ -440,27 +440,6 @@ export default function SettingsPage() {
                         >
                           <div className={`w-8 h-8 rounded-full ${t.colorClass} shadow-md border border-white/10`} />
                           <span className="text-xs font-black tracking-wide">{t.label}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-black uppercase tracking-widest text-muted-foreground mb-4">
-                      <Globe className="inline w-4 h-4 mr-2" />Language
-                    </label>
-                    <div className="grid grid-cols-3 gap-3">
-                      {['English', 'Urdu', 'Arabic', 'French', 'Spanish', 'German'].map(lang => (
-                        <button
-                          key={lang}
-                          onClick={() => setLanguage(lang)}
-                          className={`py-3 px-4 rounded-xl font-bold text-sm transition-all ${
-                            language === lang
-                              ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg'
-                              : 'bg-white/5 border border-white/5 text-muted-foreground hover:border-primary/30 hover:text-white'
-                          }`}
-                        >
-                          {lang}
                         </button>
                       ))}
                     </div>
