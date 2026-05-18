@@ -63,8 +63,10 @@ export default function SettingsPage() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const persisted = localStorage.getItem('skillbridge_accent') || 'purple';
-      setAccentTheme(persisted);
+      const persistedAccent = localStorage.getItem('skillbridge_accent') || 'purple';
+      setAccentTheme(persistedAccent);
+      const isLight = localStorage.getItem('skillbridge_theme') === 'light';
+      setDarkMode(!isLight);
     }
   }, []);
 
@@ -85,6 +87,31 @@ export default function SettingsPage() {
       document.documentElement.style.setProperty('--primary', selected.primary);
       document.documentElement.style.setProperty('--secondary', selected.secondary);
       document.documentElement.style.setProperty('--ring', selected.primary);
+    }
+  };
+
+  const applyThemeMode = (val) => {
+    setDarkMode(val);
+    if (typeof window === 'undefined') return;
+    const root = document.documentElement;
+    if (val) {
+      // Dark Mode
+      root.style.setProperty('--background', '#050507');
+      root.style.setProperty('--foreground', '#f8f9ff');
+      root.style.setProperty('--card', '#0f0f13');
+      root.style.setProperty('--border', 'rgba(255, 255, 255, 0.08)');
+      root.style.setProperty('--input-background', 'rgba(255, 255, 255, 0.03)');
+      root.style.setProperty('--muted-foreground', '#94a3b8');
+      localStorage.setItem('skillbridge_theme', 'dark');
+    } else {
+      // Light Mode
+      root.style.setProperty('--background', '#f8fafc');
+      root.style.setProperty('--foreground', '#0f172a');
+      root.style.setProperty('--card', '#ffffff');
+      root.style.setProperty('--border', 'rgba(15, 23, 42, 0.08)');
+      root.style.setProperty('--input-background', 'rgba(15, 23, 42, 0.03)');
+      root.style.setProperty('--muted-foreground', '#64748b');
+      localStorage.setItem('skillbridge_theme', 'light');
     }
   };
 
@@ -383,7 +410,7 @@ export default function SettingsPage() {
                       ].map(({ label, icon: Icon, val }) => (
                         <button
                           key={label}
-                          onClick={() => setDarkMode(val)}
+                          onClick={() => applyThemeMode(val)}
                           className={`flex items-center gap-4 p-5 rounded-2xl border-2 transition-all font-bold ${
                             darkMode === val
                               ? 'border-primary bg-primary/5 text-primary shadow-lg'

@@ -38,7 +38,7 @@ export default function DashboardSidebar() {
   return (
     <>
       {/* Mobile Top Navbar */}
-      <header className="fixed top-0 left-0 right-0 h-16 bg-[#050507] border-b border-white/5 flex items-center justify-between px-6 z-50 md:hidden">
+      <header className="fixed top-0 left-0 right-0 h-16 bg-card border-b border-border flex items-center justify-between px-6 z-50 md:hidden">
         <Link href="/" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#7c3aed] to-[#3b82f6] flex items-center justify-center shadow-lg">
             <GraduationCap className="w-5 h-5 text-white" />
@@ -49,7 +49,7 @@ export default function DashboardSidebar() {
         </Link>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 text-foreground/70 hover:text-white rounded-lg hover:bg-white/5 transition-all"
+          className="p-2 text-foreground/70 hover:text-foreground rounded-lg hover:bg-foreground/5 transition-all"
         >
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -65,11 +65,11 @@ export default function DashboardSidebar() {
 
       {/* Sidebar Drawer */}
       <aside
-        className={`w-64 bg-[#050507] border-r border-white/5 h-screen fixed top-0 flex flex-col z-50 transition-transform duration-300 md:translate-x-0 ${
+        className={`w-64 bg-card border-r border-border h-screen fixed top-0 flex flex-col z-50 transition-transform duration-300 md:translate-x-0 ${
           isOpen ? 'translate-x-0 left-0' : '-translate-x-full md:translate-x-0 md:left-0'
         }`}
       >
-        <div className="p-6 border-b border-white/5 flex items-center justify-between">
+        <div className="p-6 border-b border-border flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#7c3aed] to-[#3b82f6] flex items-center justify-center shadow-lg">
               <GraduationCap className="w-6 h-6 text-white" />
@@ -80,7 +80,7 @@ export default function DashboardSidebar() {
           </Link>
           <button
             onClick={() => setIsOpen(false)}
-            className="p-1 text-foreground/70 hover:text-white rounded-lg hover:bg-white/5 md:hidden"
+            className="p-1 text-foreground/70 hover:text-foreground rounded-lg hover:bg-foreground/5 md:hidden"
           >
             <X className="w-5 h-5" />
           </button>
@@ -98,7 +98,7 @@ export default function DashboardSidebar() {
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                     isActive(item.path)
                       ? "bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white shadow-xl scale-105"
-                      : "text-foreground/70 hover:bg-white/5 hover:text-white"
+                      : "text-foreground/70 hover:bg-foreground/5 hover:text-foreground"
                   }`}
                 >
                   <Icon className="w-5 h-5" />
@@ -115,7 +115,7 @@ export default function DashboardSidebar() {
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                 isActive('/admin')
                   ? "bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white shadow-xl scale-105"
-                  : "text-foreground/70 hover:bg-white/5 hover:text-white"
+                  : "text-foreground/70 hover:bg-foreground/5 hover:text-foreground"
               }`}
             >
               <Shield className="w-5 h-5" />
@@ -124,13 +124,13 @@ export default function DashboardSidebar() {
           </div>
         </nav>
         
-        <div className="p-6 border-t border-white/5 bg-white/5 mt-auto">
+        <div className="p-6 border-t border-border bg-foreground/5 mt-auto">
           {loading ? (
             <div className="flex items-center gap-3 opacity-50">
               <div className="w-10 h-10 rounded-full bg-primary/20 animate-pulse" />
               <div className="space-y-1">
-                <div className="h-4 w-20 bg-white/10 rounded animate-pulse" />
-                <div className="h-3 w-24 bg-white/5 rounded animate-pulse" />
+                <div className="h-4 w-20 bg-foreground/10 rounded animate-pulse" />
+                <div className="h-3 w-24 bg-foreground/5 rounded animate-pulse" />
               </div>
             </div>
           ) : authenticated ? (
