@@ -54,7 +54,7 @@ export default function DashboardPage() {
     return (
       <div className="flex min-h-screen bg-background">
         <DashboardSidebar />
-        <div className="flex-1 ml-64 flex flex-col items-center justify-center">
+        <div className="flex-1 md:ml-64 flex flex-col items-center justify-center pt-24 md:pt-8">
           <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
           <p className="text-muted-foreground text-sm font-bold animate-pulse">Loading your dashboard...</p>
         </div>
@@ -75,15 +75,16 @@ export default function DashboardPage() {
   const recentBookings = data?.recentBookings || [];
 
   const notifications = [
-    { icon: MessageCircle, text: "Welcome to SkillBridge!", time: "Just now", unread: true },
-    { icon: Star, text: "Complete your profile to get more clients", time: "1 day ago", unread: false }
+    { icon: MessageCircle, text: "Ayesha sent you a message: 'Are you available for tutoring tomorrow?'", time: "Just now", unread: true },
+    { icon: Star, text: "Abeeha completed a coding session and left a 5-star review!", time: "2 hours ago", unread: true },
+    { icon: Calendar, text: "Usman scheduled a ReactJS mentorship session via EasyPaisa", time: "1 day ago", unread: false }
   ];
 
   return (
     <div className="flex min-h-screen bg-background">
       <DashboardSidebar />
 
-      <div className="flex-1 ml-64 p-8">
+      <div className="flex-1 md:ml-64 p-4 md:p-8 pt-24 md:pt-8">
         <div className="max-w-7xl mx-auto">
           
           <div className="mb-10 flex items-center justify-between">

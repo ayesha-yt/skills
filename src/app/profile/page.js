@@ -37,7 +37,7 @@ export default function ProfilePage() {
     return (
       <div className="flex min-h-screen bg-background">
         <DashboardSidebar />
-        <div className="flex-1 ml-64 flex flex-col items-center justify-center">
+        <div className="flex-1 md:ml-64 flex flex-col items-center justify-center pt-24 md:pt-8">
           <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
           <p className="text-muted-foreground text-sm font-bold animate-pulse">Loading profile...</p>
         </div>
@@ -121,7 +121,7 @@ export default function ProfilePage() {
     <div className="flex min-h-screen bg-background">
       <DashboardSidebar />
 
-      <div className="flex-1 ml-64 p-8">
+      <div className="flex-1 md:ml-64 p-4 md:p-8 pt-24 md:pt-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-10">
             <h1 className="text-4xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
