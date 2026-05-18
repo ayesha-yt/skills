@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import DashboardSidebar from "@/components/DashboardSidebar";
 import {
   Users,
@@ -19,11 +21,22 @@ import {
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 export default function AdminPanel() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [stats, setStats] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
   const [recentUsers, setRecentUsers] = useState([]);
   const [pendingServices, setPendingServices] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Auth & Admin Guard
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/login');
+    } else if (status === 'authenticated' && session?.user?.role !== 'admin') {
+      router.push('/dashboard');
+    }
+  }, [status, session, router]);
 
   const fetchAdminData = async () => {
     try {
@@ -37,7 +50,15 @@ export default function AdminPanel() {
       const usersData = await usersRes.json();
       const servicesData = await servicesRes.json();
 
-      if (statsData.stats) setStats(statsData.stats);
+      if (statsData.stats) {
+        // Localize stats currency
+        const localizedStats = statsData.stats.map(s => {
+          if (s.label === "Revenue") return { ...s, value: s.value.replace('$', 'Rs. ') };
+          return s;
+        });
+        setStats(localizedStats);
+      }
+      
       if (Array.isArray(statsData.categories)) {
         const colors = ["#7c3aed", "#3b82f6", "#8b5cf6", "#06b6d4", "#a855f7", "#6366f1"];
         setCategoryData(statsData.categories.map((c, i) => ({ ...c, color: colors[i % colors.length] })));
@@ -56,8 +77,10 @@ export default function AdminPanel() {
   };
 
   useEffect(() => {
-    fetchAdminData();
-  }, []);
+    if (status === 'authenticated' && session?.user?.role === 'admin') {
+      fetchAdminData();
+    }
+  }, [status, session]);
 
   const handleApproval = async (id, status) => {
     try {
@@ -83,7 +106,7 @@ export default function AdminPanel() {
     { month: "May", revenue: 124500, users: 10247 }
   ];
 
-  if (loading) {
+  if (status === 'loading' || (status === 'authenticated' && loading)) {
     return (
       <div className="flex min-h-screen bg-background">
         <DashboardSidebar />
@@ -93,6 +116,8 @@ export default function AdminPanel() {
       </div>
     );
   }
+
+  if (status === 'unauthenticated' || session?.user?.role !== 'admin') return null;
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -119,7 +144,7 @@ export default function AdminPanel() {
             {(stats.length > 0 ? stats : [
               { icon: Users, label: "Total Users", value: "0" },
               { icon: ShoppingBag, label: "Active Services", value: "0" },
-              { icon: DollarSign, label: "Revenue", value: "$0" },
+              { icon: DollarSign, label: "Revenue", value: "Rs. 0" },
               { icon: Clock, label: "Bookings", value: "0" }
             ]).map((stat, index) => {
               const Icon = stat.icon || (index === 0 ? Users : index === 1 ? ShoppingBag : index === 2 ? DollarSign : Clock);
@@ -160,7 +185,7 @@ export default function AdminPanel() {
                       itemStyle={{ color: '#f8f9ff' }}
                     />
                     <Legend />
-                    <Line type="monotone" dataKey="revenue" stroke="#7c3aed" strokeWidth={4} dot={{ r: 4, fill: '#7c3aed', strokeWidth: 2, stroke: '#fff' }} name="Revenue ($)" />
+                    <Line type="monotone" dataKey="revenue" stroke="#7c3aed" strokeWidth={4} dot={{ r: 4, fill: '#7c3aed', strokeWidth: 2, stroke: '#fff' }} name="Revenue (Rs.)" />
                     <Line type="monotone" dataKey="users" stroke="#3b82f6" strokeWidth={4} dot={{ r: 4, fill: '#3b82f6', strokeWidth: 2, stroke: '#fff' }} name="Users" />
                   </LineChart>
                 </ResponsiveContainer>
@@ -234,7 +259,7 @@ export default function AdminPanel() {
                           </td>
                           <td className="py-5 px-4 text-sm text-muted-foreground font-medium">{user.email}</td>
                           <td className="py-5 px-4">
-                            <span className={`px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                            <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
                               user.role === "admin" ? "bg-primary/10 text-primary border border-primary/20" : "bg-green-400/10 text-green-400 border border-green-400/20"
                             }`}>
                               {user.role}

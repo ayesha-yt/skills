@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import DashboardSidebar from "@/components/DashboardSidebar";
 import {
   DollarSign,
@@ -19,41 +20,53 @@ import {
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [sessionTimeout, setSessionTimeout] = useState(false);
 
-  // Derived loading state to include session loading
-  const isActuallyLoading = loading || status === 'loading';
-
+  // Auth Guard: Redirect to login if not authenticated
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isActuallyLoading) setSessionTimeout(true);
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, [isActuallyLoading]);
-
-  useEffect(() => {
-    async function fetchDashboard() {
-      try {
-        const res = await fetch('/api/user/stats');
-        const json = await res.json();
-        setData(json);
-      } catch (err) {
-        console.error('Dashboard fetch failed:', err);
-      } finally {
-        setLoading(false);
-      }
-    }
     if (status === 'unauthenticated') {
+      router.push('/login');
+    }
+  }, [status, router]);
+
+  const fetchDashboard = async () => {
+    try {
+      const res = await fetch('/api/user/stats');
+      if (!res.ok) return;
+      const json = await res.json();
+      setData(json);
+    } catch (err) {
+      console.error('Dashboard fetch failed:', err);
+    } finally {
       setLoading(false);
-    } else if (status === 'authenticated') {
+    }
+  };
+
+  useEffect(() => {
+    if (status === 'authenticated') {
       fetchDashboard();
     }
   }, [status]);
 
+  if (status === 'loading' || (status === 'authenticated' && loading)) {
+    return (
+      <div className="flex min-h-screen bg-background">
+        <DashboardSidebar />
+        <div className="flex-1 ml-64 flex flex-col items-center justify-center">
+          <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
+          <p className="text-muted-foreground text-sm font-bold animate-pulse">Loading your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If we reach here and status is unauthenticated, the useEffect will handle it
+  if (status === 'unauthenticated') return null;
+
   const stats = [
-    { icon: DollarSign, label: "Total Earnings", value: `$${(data?.earnings || 0).toLocaleString()}`, change: "+12.5%", trend: "up" },
+    { icon: DollarSign, label: "Total Earnings", value: `Rs. ${(data?.earnings || 0).toLocaleString()}`, change: "+12.5%", trend: "up" },
     { icon: ShoppingBag, label: "Active Services", value: (data?.serviceCount || 0).toString(), change: "+1", trend: "up" },
     { icon: Users, label: "Total Clients", value: (data?.clientCount || 0).toString(), change: "+0", trend: "up" },
     { icon: Star, label: "Average Rating", value: (data?.rating || 5.0).toFixed(1), change: "+0.0", trend: "up" }
@@ -66,47 +79,24 @@ export default function DashboardPage() {
     { icon: Star, text: "Complete your profile to get more clients", time: "1 day ago", unread: false }
   ];
 
-  if (isActuallyLoading) {
-    return (
-      <div className="flex min-h-screen bg-background">
-        <DashboardSidebar />
-        <div className="flex-1 ml-64 flex flex-col items-center justify-center">
-          <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
-          {sessionTimeout && (
-            <div className="text-center animate-in fade-in duration-700">
-              <p className="text-muted-foreground text-sm font-medium mb-4">Authentication is taking longer than expected...</p>
-              <button 
-                onClick={() => window.location.href = '/api/auth/signout'}
-                className="px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-bold transition-all"
-              >
-                Force Sign Out & Reset
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="flex min-h-screen bg-background">
       <DashboardSidebar />
 
       <div className="flex-1 ml-64 p-8">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-10">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-4xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Welcome back, {session?.user?.name?.split(' ')[0] || 'Alex'}!
-                </h1>
-                <p className="text-muted-foreground mt-2 text-lg">Here's what's happening with your services today</p>
-              </div>
-              <button className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group">
-                <Bell className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
-                <span className="font-semibold text-foreground">Notifications</span>
-              </button>
+          
+          <div className="mb-10 flex items-center justify-between">
+            <div>
+              <h1 className="text-4xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
+                Welcome back, {session?.user?.name || 'Zohaib'}!
+              </h1>
+              <p className="text-muted-foreground text-lg font-medium">Here's what's happening with your services today</p>
             </div>
+            <button className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group">
+              <Bell className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
+              <span className="font-semibold text-foreground">Notifications</span>
+            </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">

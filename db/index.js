@@ -21,16 +21,32 @@ async function getDb() {
 
     // Wrapper to make PG act like SQLite for basic queries
     global.dbInstance = {
-      all: async (sql, params = []) => {
-        const res = await pool.query(sql.replace(/\?/g, (_, i) => `$${i + 1}`), params);
+      all: async (sql, ...params) => {
+        const actualParams = Array.isArray(params[0]) ? params[0] : params;
+        let counter = 1;
+        const processedSql = sql.replace(/\?/g, () => `$${counter++}`);
+        console.log('PG Query (all):', processedSql, actualParams);
+        const res = await pool.query(processedSql, actualParams);
         return res.rows;
       },
-      get: async (sql, params = []) => {
-        const res = await pool.query(sql.replace(/\?/g, (_, i) => `$${i + 1}`), params);
+      get: async (sql, ...params) => {
+        const actualParams = Array.isArray(params[0]) ? params[0] : params;
+        let counter = 1;
+        const processedSql = sql.replace(/\?/g, () => `$${counter++}`);
+        console.log('PG Query (get):', processedSql, actualParams);
+        const res = await pool.query(processedSql, actualParams);
         return res.rows[0];
       },
-      run: async (sql, params = []) => {
-        return await pool.query(sql.replace(/\?/g, (_, i) => `$${i + 1}`), params);
+      run: async (sql, ...params) => {
+        const actualParams = Array.isArray(params[0]) ? params[0] : params;
+        let counter = 1;
+        let processedSql = sql.replace(/\?/g, () => `$${counter++}`);
+        if (processedSql.trim().toLowerCase().startsWith('insert')) {
+          processedSql += ' RETURNING id';
+        }
+        console.log('PG Query (run):', processedSql, actualParams);
+        const res = await pool.query(processedSql, actualParams);
+        return { lastID: res.rows[0]?.id, rowsAffected: res.rowCount };
       },
       isPostgres: true
     };

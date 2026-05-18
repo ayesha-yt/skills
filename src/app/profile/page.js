@@ -1,5 +1,8 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import DashboardSidebar from "@/components/DashboardSidebar";
 import {
   Star,
@@ -15,15 +18,46 @@ import {
   Palette,
   Camera,
   TrendingUp,
-  Plus
+  Plus,
+  Loader2
 } from "lucide-react";
 
 export default function ProfilePage() {
-  const skills = [
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  // Auth Guard: Redirect to login if not authenticated
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/login');
+    }
+  }, [status, router]);
+
+  if (status === 'loading' || status === 'unauthenticated') {
+    return (
+      <div className="flex min-h-screen bg-background">
+        <DashboardSidebar />
+        <div className="flex-1 ml-64 flex flex-col items-center justify-center">
+          <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
+          <p className="text-muted-foreground text-sm font-bold animate-pulse">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const user = session?.user;
+  const initials = user?.name ? user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'ZB';
+
+  const userSkillsList = user?.skills ? user.skills.split(',').map(s => s.trim()) : [];
+
+  const skills = userSkillsList.length > 0 ? userSkillsList.map(skill => ({
+    icon: Code, // Default icon
+    name: skill,
+    level: "Advanced"
+  })) : [
     { icon: Code, name: "Web Development", level: "Expert" },
     { icon: Palette, name: "UI/UX Design", level: "Advanced" },
-    { icon: Camera, name: "Photography", level: "Intermediate" },
-    { icon: TrendingUp, name: "Data Analysis", level: "Intermediate" }
+    { icon: TrendingUp, name: "Digital Marketing", level: "Intermediate" }
   ];
 
   const services = [
@@ -31,7 +65,7 @@ export default function ProfilePage() {
       id: 1,
       title: "Web Development Tutoring",
       category: "Development",
-      price: 35,
+      price: 3500,
       rating: 4.9,
       reviews: 127,
       active: true
@@ -40,7 +74,7 @@ export default function ProfilePage() {
       id: 2,
       title: "React.js Consultation",
       category: "Development",
-      price: 50,
+      price: 5000,
       rating: 5.0,
       reviews: 89,
       active: true
@@ -49,7 +83,7 @@ export default function ProfilePage() {
       id: 3,
       title: "Portfolio Website Design",
       category: "Design",
-      price: 200,
+      price: 20000,
       rating: 4.8,
       reviews: 56,
       active: false
@@ -59,24 +93,24 @@ export default function ProfilePage() {
   const reviews = [
     {
       service: "Web Development Tutoring",
-      reviewer: "Sarah Johnson",
-      avatar: "SJ",
+      reviewer: "Sarah Ahmed",
+      avatar: "SA",
       rating: 5,
       date: "May 10, 2026",
       text: "Excellent tutor! Very patient and knowledgeable. Helped me understand complex React concepts."
     },
     {
       service: "React.js Consultation",
-      reviewer: "Michael Chen",
-      avatar: "MC",
+      reviewer: "Mohsin Ali",
+      avatar: "MA",
       rating: 5,
       date: "May 8, 2026",
-      text: "Great experience! Alex provided valuable insights for my project. Highly recommended!"
+      text: "Great experience! Provided valuable insights for my final year project. Highly recommended!"
     },
     {
       service: "Web Development Tutoring",
-      reviewer: "Emma Williams",
-      avatar: "EW",
+      reviewer: "Ayesha Khan",
+      avatar: "AK",
       rating: 4,
       date: "May 5, 2026",
       text: "Very helpful session. Clear explanations and practical examples. Will book again!"
@@ -108,14 +142,14 @@ export default function ProfilePage() {
                 <div className="text-center mb-10 pt-4">
                   <div className="relative inline-block mb-6">
                     <div className="w-32 h-32 rounded-[2rem] bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-4xl font-black shadow-2xl group-hover:scale-105 transition-transform duration-500">
-                      AT
+                      {initials}
                     </div>
                     <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-xl bg-[#10b981] border-4 border-[#050507] flex items-center justify-center shadow-lg">
                       <div className="w-3 h-3 rounded-full bg-white animate-pulse" />
                     </div>
                   </div>
-                  <h2 className="text-3xl font-black text-foreground mb-2">Alex Thompson</h2>
-                  <p className="text-primary font-bold tracking-widest uppercase text-xs mb-4">Computer Science Senior</p>
+                  <h2 className="text-3xl font-black text-foreground mb-2">{user?.name || 'Zohaib Baig'}</h2>
+                  <p className="text-primary font-bold tracking-widest uppercase text-xs mb-4">University Student</p>
                   <div className="flex items-center justify-center gap-2 mb-6">
                     <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                     <span className="font-black text-lg">4.9</span>
@@ -129,10 +163,10 @@ export default function ProfilePage() {
 
                 <div className="space-y-4 pt-8 border-t border-white/5">
                   {[
-                    { icon: Mail, value: "alex.t@university.edu" },
-                    { icon: Phone, value: "+1 (555) 123-4567" },
-                    { icon: GraduationCap, value: "Stanford University" },
-                    { icon: MapPin, value: "Palo Alto, CA" },
+                    { icon: Mail, value: user?.email || "zohaibbaig144@gmail.com" },
+                    { icon: Phone, value: "+92 300 1234567" },
+                    { icon: GraduationCap, value: "NUST, Pakistan" },
+                    { icon: MapPin, value: "Islamabad, PK" },
                     { icon: Calendar, value: "Joined Jan 2024" }
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-4 text-muted-foreground hover:text-white transition-colors group/item">
@@ -180,13 +214,13 @@ export default function ProfilePage() {
                     </div>
                     <div>
                       <div className="font-black text-sm uppercase tracking-widest opacity-80">Total Revenue</div>
-                      <div className="text-3xl font-black">$12,450</div>
+                      <div className="text-3xl font-black">Rs. 124,500</div>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4 pt-6 border-t border-white/20">
                     <div>
                       <div className="text-white/60 text-[10px] font-black uppercase tracking-widest mb-1">This Month</div>
-                      <div className="text-xl font-black">$1,250</div>
+                      <div className="text-xl font-black">Rs. 12,500</div>
                     </div>
                     <div>
                       <div className="text-white/60 text-[10px] font-black uppercase tracking-widest mb-1">Completed</div>
@@ -208,13 +242,12 @@ export default function ProfilePage() {
                 </div>
                 <div className="space-y-6">
                   <p className="text-muted-foreground leading-relaxed text-lg font-medium">
-                    Hey there! I'm Alex, a Computer Science senior at Stanford University with a passion for web
-                    development and teaching. I've been coding for over 5 years and love helping fellow students
-                    master programming concepts.
+                    Hey there! I'm {user?.name || 'Zohaib'}, a university student with a passion for web
+                    development and digital services. I've been working on practical projects and love helping fellow students
+                    with their assignments and technical challenges.
                   </p>
                   <p className="text-muted-foreground leading-relaxed text-lg font-medium">
-                    I specialize in full-stack development with expertise in React, Node.js, Python, and modern web
-                    technologies. My teaching approach focuses on practical, hands-on learning with real-world projects.
+                    I specialize in building things from scratch and offering consultations. My approach focuses on practical, hands-on learning with real-world applications.
                   </p>
                 </div>
               </div>
@@ -259,9 +292,8 @@ export default function ProfilePage() {
                               <span className="text-muted-foreground text-xs font-bold">({service.reviews} reviews)</span>
                             </div>
                             <div className="flex items-baseline gap-1 text-primary">
-                              <span className="text-xs font-black">$</span>
-                              <span className="text-2xl font-black">{service.price}</span>
-                              <span className="text-xs text-muted-foreground font-bold">/hr</span>
+                              <span className="text-2xl font-black">Rs. {service.price}</span>
+                              <span className="text-xs text-muted-foreground font-bold">/ session</span>
                             </div>
                           </div>
                         </div>

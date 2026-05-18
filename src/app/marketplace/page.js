@@ -276,9 +276,8 @@ export default function MarketplacePage() {
 
                       <div className="flex items-center justify-between pt-5 border-t border-white/5">
                         <div className="flex items-baseline gap-1 text-foreground">
-                          <span className="text-sm text-primary font-bold">$</span>
-                          <span className="text-3xl font-black">{service.price}</span>
-                          <span className="text-sm text-muted-foreground font-medium">/hr</span>
+                          <span className="text-2xl font-black text-primary">Rs. {service.price}</span>
+                          <span className="text-xs text-muted-foreground font-bold">/ session</span>
                         </div>
                         <div className="px-5 py-2.5 bg-gradient-to-r from-primary to-secondary text-white text-sm font-bold rounded-xl shadow-lg group-hover:shadow-primary/30 group-hover:scale-105 transition-all">
                           View

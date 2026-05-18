@@ -21,9 +21,10 @@ export default function BookingPage({ params: paramsPromise }) {
   const durations = ["1 hour session", "1.5 hours session", "2 hours session", "3 hours session"];
 
   const paymentMethods = [
-    { id: 'card',    label: 'Credit / Debit Card', desc: 'Secure payment via Stripe',    icon: CreditCard },
-    { id: 'credits', label: 'University Credits',   desc: 'Use your campus balance',      icon: '🎓' },
-    { id: 'cash',    label: 'Pay at Session',        desc: 'Pay when you meet in person', icon: '💵' },
+    { id: 'card',      label: 'Debit / Credit Card', desc: 'Secure payment via Visa/MasterCard', icon: CreditCard },
+    { id: 'jazzcash',  label: 'JazzCash',           desc: 'Pay via JazzCash Mobile Wallet',     icon: '📱' },
+    { id: 'easypaisa', label: 'EasyPaisa',          desc: 'Pay via EasyPaisa Mobile Wallet',    icon: '💸' },
+    { id: 'cash',      label: 'Cash on Delivery',    desc: 'Pay in person at the university',    icon: '💵' },
   ];
 
   // Form state
@@ -115,7 +116,7 @@ export default function BookingPage({ params: paramsPromise }) {
             <h2 className="text-4xl font-black mb-4 bg-gradient-to-r from-[#10b981] to-primary bg-clip-text text-transparent">Booking Confirmed!</h2>
             <p className="text-muted-foreground text-lg mb-2 font-medium">Your session with <span className="text-white font-bold">{service?.seller_name}</span> has been booked.</p>
             <p className="text-muted-foreground font-medium mb-10">{selectedDate} · {selectedTime} · {selectedDuration}</p>
-            <div className="text-3xl font-black text-primary mb-10">${total.toFixed(2)} total</div>
+            <div className="text-3xl font-black text-primary mb-10">Rs. {total.toFixed(2)} total</div>
             <Link href="/dashboard" className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-all">
               Go to Dashboard
             </Link>
@@ -364,16 +365,16 @@ export default function BookingPage({ params: paramsPromise }) {
                 <div className="space-y-4 pb-8 mb-8 border-b border-white/5 relative z-10 px-2">
                   <div className="flex justify-between font-bold text-sm">
                     <span className="text-muted-foreground">Service Fee</span>
-                    <span>${serviceFee.toFixed(2)}</span>
+                    <span>Rs. {serviceFee.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between font-bold text-sm">
                     <span className="text-muted-foreground">Platform Fee <span className="text-xs opacity-60">(10%)</span></span>
-                    <span>${platformFee.toFixed(2)}</span>
+                    <span>Rs. {platformFee.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-2xl font-black pt-4">
                     <span>Total</span>
                     <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                      ${total.toFixed(2)}
+                      Rs. {total.toFixed(2)}
                     </span>
                   </div>
                 </div>

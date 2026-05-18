@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import DashboardSidebar from "@/components/DashboardSidebar";
 import {
   User, Bell, Shield, Palette, CreditCard,
@@ -19,7 +20,15 @@ const Toggle = ({ enabled, onChange }) => (
 );
 
 export default function SettingsPage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  // Auth Guard
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/login');
+    }
+  }, [status, router]);
 
   // Profile
   const [displayName, setDisplayName]   = useState('');

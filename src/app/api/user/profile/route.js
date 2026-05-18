@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]/route';
-import getDb from '../../../../db';
+import { authOptions } from '@/lib/auth';
+import getDb from '../../../../../db';
 
 export async function GET(request) {
   try {
