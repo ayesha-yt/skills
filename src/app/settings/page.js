@@ -59,6 +59,34 @@ export default function SettingsPage() {
   // Appearance
   const [darkMode, setDarkMode] = useState(true);
   const [language, setLanguage] = useState('English');
+  const [accentTheme, setAccentTheme] = useState('purple');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const persisted = localStorage.getItem('skillbridge_accent') || 'purple';
+      setAccentTheme(persisted);
+    }
+  }, []);
+
+  const themes = [
+    { id: 'purple', label: 'Amethyst', primary: '#7c3aed', secondary: '#3b82f6', colorClass: 'bg-[#7c3aed]' },
+    { id: 'emerald', label: 'Emerald', primary: '#10b981', secondary: '#14b8a6', colorClass: 'bg-[#10b981]' },
+    { id: 'rose', label: 'Rose', primary: '#ec4899', secondary: '#f43f5e', colorClass: 'bg-[#ec4899]' },
+    { id: 'amber', label: 'Amber', primary: '#f59e0b', secondary: '#ef4444', colorClass: 'bg-[#f59e0b]' },
+    { id: 'cyan', label: 'Cyan', primary: '#06b6d4', secondary: '#3b82f6', colorClass: 'bg-[#06b6d4]' },
+  ];
+
+  const applyAccentTheme = (themeId) => {
+    const selected = themes.find(t => t.id === themeId);
+    if (!selected) return;
+    setAccentTheme(themeId);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('skillbridge_accent', themeId);
+      document.documentElement.style.setProperty('--primary', selected.primary);
+      document.documentElement.style.setProperty('--secondary', selected.secondary);
+      document.documentElement.style.setProperty('--ring', selected.primary);
+    }
+  };
 
   // Privacy
   const [privacy, setPrivacy] = useState({
@@ -142,11 +170,11 @@ export default function SettingsPage() {
             <p className="text-muted-foreground text-lg">Manage your account preferences and configuration</p>
           </div>
 
-          <div className="flex gap-8">
+          <div className="flex flex-col lg:flex-row gap-8">
 
             {/* Sidebar nav */}
-            <div className="w-56 flex-shrink-0">
-              <div className="bg-card/30 rounded-[2rem] p-3 border border-white/5 shadow-xl sticky top-8">
+            <div className="w-full lg:w-56 flex-shrink-0">
+              <div className="bg-card/30 rounded-[2rem] p-2 border border-white/5 shadow-xl sticky top-20 lg:top-8 flex lg:flex-col overflow-x-auto lg:overflow-x-visible gap-1.5 lg:gap-1 no-scrollbar">
                 {tabs.map(tab => {
                   const Icon = tab.icon;
                   const isActive = activeTab === tab.id;
@@ -154,11 +182,11 @@ export default function SettingsPage() {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl font-bold text-sm transition-all duration-200 ${
+                      className={`flex-shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all duration-200 ${
                         isActive
                           ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg'
                           : 'text-muted-foreground hover:bg-white/5 hover:text-white'
-                      }`}
+                      } w-auto lg:w-full`}
                     >
                       <Icon className="w-4 h-4" />
                       {tab.label}
@@ -169,12 +197,12 @@ export default function SettingsPage() {
             </div>
 
             {/* Content */}
-            <div className="flex-1 space-y-6">
+            <div className="flex-1 space-y-6 min-w-0">
 
               {/* Profile */}
               {activeTab === 'profile' && (
                 <>
-                  <div className="bg-card/30 rounded-[2rem] p-8 border border-white/5 shadow-xl">
+                  <div className="bg-card/30 rounded-[2rem] p-6 md:p-8 border border-white/5 shadow-xl">
                     <h2 className="text-xl font-black mb-8 flex items-center gap-3">
                       <User className="w-5 h-5 text-primary" /> Profile Information
                     </h2>
@@ -255,7 +283,7 @@ export default function SettingsPage() {
 
               {/* Security */}
               {activeTab === 'security' && (
-                <div className="bg-card/30 rounded-[2rem] p-8 border border-white/5 shadow-xl">
+                <div className="bg-card/30 rounded-[2rem] p-6 md:p-8 border border-white/5 shadow-xl">
                   <h2 className="text-xl font-black mb-8 flex items-center gap-3">
                     <Lock className="w-5 h-5 text-primary" /> Change Password
                   </h2>
@@ -315,7 +343,7 @@ export default function SettingsPage() {
 
               {/* Notifications */}
               {activeTab === 'notifications' && (
-                <div className="bg-card/30 rounded-[2rem] p-8 border border-white/5 shadow-xl">
+                <div className="bg-card/30 rounded-[2rem] p-6 md:p-8 border border-white/5 shadow-xl">
                   <h2 className="text-xl font-black mb-8 flex items-center gap-3">
                     <Bell className="w-5 h-5 text-primary" /> Notification Preferences
                   </h2>
@@ -341,13 +369,13 @@ export default function SettingsPage() {
 
               {/* Appearance */}
               {activeTab === 'appearance' && (
-                <div className="bg-card/30 rounded-[2rem] p-8 border border-white/5 shadow-xl">
+                <div className="bg-card/30 rounded-[2rem] p-6 md:p-8 border border-white/5 shadow-xl">
                   <h2 className="text-xl font-black mb-8 flex items-center gap-3">
                     <Palette className="w-5 h-5 text-primary" /> Appearance
                   </h2>
 
-                  <div className="mb-8">
-                    <label className="block text-xs font-black uppercase tracking-widest text-muted-foreground mb-4">Theme</label>
+                  <div className="mb-10">
+                    <label className="block text-xs font-black uppercase tracking-widest text-muted-foreground mb-4">Theme Mode</label>
                     <div className="grid grid-cols-2 gap-4">
                       {[
                         { label: 'Dark Mode', icon: Moon, val: true },
@@ -364,6 +392,27 @@ export default function SettingsPage() {
                         >
                           <Icon className="w-5 h-5" /> {label}
                           {darkMode === val && <CheckCircle2 className="w-4 h-4 ml-auto" />}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Accent Palette Selector */}
+                  <div className="mb-10 pb-8 border-b border-white/5">
+                    <label className="block text-xs font-black uppercase tracking-widest text-muted-foreground mb-4">Theme Accent Color</label>
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                      {themes.map(t => (
+                        <button
+                          key={t.id}
+                          onClick={() => applyAccentTheme(t.id)}
+                          className={`flex flex-col items-center justify-center p-4 rounded-2xl border-2 transition-all gap-3 ${
+                            accentTheme === t.id
+                              ? 'border-primary bg-primary/5 text-primary shadow-lg scale-105'
+                              : 'border-white/5 bg-white/5 text-muted-foreground hover:border-white/20'
+                          }`}
+                        >
+                          <div className={`w-8 h-8 rounded-full ${t.colorClass} shadow-md border border-white/10`} />
+                          <span className="text-xs font-black tracking-wide">{t.label}</span>
                         </button>
                       ))}
                     </div>
@@ -394,7 +443,7 @@ export default function SettingsPage() {
 
               {/* Privacy */}
               {activeTab === 'privacy' && (
-                <div className="bg-card/30 rounded-[2rem] p-8 border border-white/5 shadow-xl">
+                <div className="bg-card/30 rounded-[2rem] p-6 md:p-8 border border-white/5 shadow-xl">
                   <h2 className="text-xl font-black mb-8 flex items-center gap-3">
                     <Shield className="w-5 h-5 text-primary" /> Privacy Settings
                   </h2>
