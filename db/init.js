@@ -61,13 +61,13 @@ async function init() {
   // Seed initial users (passwords are bcrypt hash of "password123")
   await db.run(`
     INSERT OR IGNORE INTO users (id, name, email, password, avatar, skills) VALUES 
-    (1, 'Zohaib', 'zohaib@skillbridge.pk', '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150', 'Next.js, Node.js, PostgreSQL, Full-Stack Dev'),
-    (2, 'Ayesha', 'ayesha@skillbridge.pk', '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150', 'UI/UX Design, Figma, TailwindCSS, Wireframing'),
-    (3, 'Abeeha', 'abeeha@skillbridge.pk', '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y', 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150', 'Calculus, Applied Physics, Logic & Algebra'),
-    (4, 'Usman', 'usman@skillbridge.pk', '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150', 'Adobe Lightroom, DSLR Photography, Color Grading'),
-    (5, 'Daniyal', 'daniyal@skillbridge.pk', '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y', 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150', 'Pitch Decks, Business Strategy, Market Research'),
-    (6, 'Aymen', 'aymen@skillbridge.pk', '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150', 'Meta Ads, Google SEO, Analytics, Branding'),
-    (7, 'Eman', 'eman@skillbridge.pk', '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y', 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150', 'SEO Writing, Content Strategy, Copywriting')
+    (1, 'Zohaib', 'zohaib@skillbridge.pk', '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150', 'Next.js, Node.js, PostgreSQL, Full-Stack Dev'),
+    (2, 'Ayesha', 'ayesha@skillbridge.pk', '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150', 'UI/UX Design, Figma, TailwindCSS, Wireframing'),
+    (3, 'Abeeha', 'abeeha@skillbridge.pk', '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy', 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150', 'Calculus, Applied Physics, Logic & Algebra'),
+    (4, 'Usman', 'usman@skillbridge.pk', '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150', 'Adobe Lightroom, DSLR Photography, Color Grading'),
+    (5, 'Daniyal', 'daniyal@skillbridge.pk', '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy', 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150', 'Pitch Decks, Business Strategy, Market Research'),
+    (6, 'Aymen', 'aymen@skillbridge.pk', '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150', 'Meta Ads, Google SEO, Analytics, Branding'),
+    (7, 'Eman', 'eman@skillbridge.pk', '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy', 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150', 'SEO Writing, Content Strategy, Copywriting')
   `);
 
   await db.run(`

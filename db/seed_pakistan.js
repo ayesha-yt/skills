@@ -27,7 +27,7 @@ async function seed() {
         id: 1,
         name: 'Zohaib',
         email: 'zohaib@skillbridge.pk',
-        password: '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y',
+        password: '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy',
         avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150',
         skills: 'Next.js, Node.js, PostgreSQL, Full-Stack Dev',
         role: 'user'
@@ -36,7 +36,7 @@ async function seed() {
         id: 2,
         name: 'Ayesha',
         email: 'ayesha@skillbridge.pk',
-        password: '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y',
+        password: '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy',
         avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150',
         skills: 'UI/UX Design, Figma, TailwindCSS, Wireframing',
         role: 'user'
@@ -45,7 +45,7 @@ async function seed() {
         id: 3,
         name: 'Abeeha',
         email: 'abeeha@skillbridge.pk',
-        password: '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y',
+        password: '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy',
         avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150',
         skills: 'Calculus, Applied Physics, Logic & Algebra',
         role: 'user'
@@ -54,7 +54,7 @@ async function seed() {
         id: 4,
         name: 'Usman',
         email: 'usman@skillbridge.pk',
-        password: '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y',
+        password: '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy',
         avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150',
         skills: 'Adobe Lightroom, DSLR Photography, Color Grading',
         role: 'user'
@@ -63,7 +63,7 @@ async function seed() {
         id: 5,
         name: 'Daniyal',
         email: 'daniyal@skillbridge.pk',
-        password: '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y',
+        password: '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy',
         avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150',
         skills: 'Pitch Decks, Business Strategy, Market Research',
         role: 'user'
@@ -72,7 +72,7 @@ async function seed() {
         id: 6,
         name: 'Aymen',
         email: 'aymen@skillbridge.pk',
-        password: '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y',
+        password: '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy',
         avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
         skills: 'Meta Ads, Google SEO, Analytics, Branding',
         role: 'user'
@@ -81,7 +81,7 @@ async function seed() {
         id: 7,
         name: 'Eman',
         email: 'eman@skillbridge.pk',
-        password: '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y',
+        password: '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy',
         avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150',
         skills: 'SEO Writing, Content Strategy, Copywriting',
         role: 'user'
@@ -90,7 +90,7 @@ async function seed() {
         id: 8,
         name: 'Admin SkillBridge',
         email: 'admin@skillbridge.pk',
-        password: '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y',
+        password: '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy',
         avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150',
         skills: 'System Administration, Operations Management',
         role: 'admin'

@@ -39,9 +39,9 @@ CREATE TABLE IF NOT EXISTS ratings (
 
 -- Seed some initial data
 INSERT OR IGNORE INTO users (id, name, email, password, avatar, skills) VALUES 
-(1, 'Alice Johnson', 'alice@university.edu', '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y', 'https://i.pravatar.cc/150?u=alice', 'Python, Data Science'),
-(2, 'Bob Smith', 'bob@university.edu', '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y', 'https://i.pravatar.cc/150?u=bob', 'UI/UX Design, Figma'),
-(3, 'Charlie Brown', 'charlie@university.edu', '$2b$10$EP/kFfP7e8GkE/R2C5wQ3e/L0q8C9V.Gv1gP0bB7iP7YcT6w5sK8y', 'https://i.pravatar.cc/150?u=charlie', 'Calculus, Physics');
+(1, 'Alice Johnson', 'alice@university.edu', '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy', 'https://i.pravatar.cc/150?u=alice', 'Python, Data Science'),
+(2, 'Bob Smith', 'bob@university.edu', '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy', 'https://i.pravatar.cc/150?u=bob', 'UI/UX Design, Figma'),
+(3, 'Charlie Brown', 'charlie@university.edu', '$2b$10$/ecfT8zOxj78yDmOnzhpB.0JkXfEJvezEIvrdT8pNCCLbPJGjbSPy', 'https://i.pravatar.cc/150?u=charlie', 'Calculus, Physics');
 
 INSERT OR IGNORE INTO services (id, seller_id, title, description, category, price, platform_fee) VALUES 
 (1, 1, 'Python Tutoring', 'Learn Python from basics to advanced. Great for CS101 students.', 'Tutoring', 20.0, 2.0),
