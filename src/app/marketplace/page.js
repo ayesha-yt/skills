@@ -21,7 +21,7 @@ export default function MarketplacePage() {
   const [searchQuery, setSearchQuery]     = useState('');
   const [activeCategory, setActiveCategory] = useState('');
   const [showFilters, setShowFilters]     = useState(false);
-  const [priceRange, setPriceRange]       = useState(100);
+  const [priceRange, setPriceRange]       = useState(10000);
 
   // Debounce search: only fire API call 400ms after user stops typing
   useEffect(() => {
@@ -65,10 +65,10 @@ export default function MarketplacePage() {
     setSearchInput('');
     setSearchQuery('');
     setActiveCategory('');
-    setPriceRange(100);
+    setPriceRange(10000);
   };
 
-  const hasFilters = searchInput || activeCategory || priceRange < 100;
+  const hasFilters = searchInput || activeCategory || priceRange < 10000;
 
   const cardGradients = [
     "from-blue-900/60 to-purple-900/60",
@@ -117,13 +117,13 @@ export default function MarketplacePage() {
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className={`flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-bold transition-all duration-300 hover:scale-105 ${
-                  showFilters || priceRange < 100
+                  showFilters || priceRange < 10000
                     ? 'bg-primary text-white shadow-xl shadow-primary/30'
                     : 'bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] text-white hover:shadow-2xl'
                 }`}
               >
                 <Filter className="w-5 h-5" />
-                Filters {priceRange < 100 && <span className="ml-1 bg-white/20 rounded-full px-2 py-0.5 text-xs">1</span>}
+                Filters {priceRange < 10000 && <span className="ml-1 bg-white/20 rounded-full px-2 py-0.5 text-xs">1</span>}
               </button>
             </div>
 
@@ -132,20 +132,21 @@ export default function MarketplacePage() {
               <div className="mt-6 pt-6 border-t border-white/5">
                 <div className="flex items-center justify-between mb-3">
                   <label className="text-sm font-black uppercase tracking-widest text-muted-foreground">
-                    Max Price: <span className="text-primary">${priceRange}/hr</span>
+                    Max Price: <span className="text-primary">Rs. {priceRange.toLocaleString()}</span>
                   </label>
                 </div>
                 <input
                   type="range"
-                  min={5}
-                  max={100}
+                  min={500}
+                  max={10000}
+                  step={100}
                   value={priceRange}
                   onChange={(e) => setPriceRange(Number(e.target.value))}
                   className="w-full accent-primary h-2 rounded-full cursor-pointer"
                 />
                 <div className="flex justify-between text-xs text-muted-foreground font-bold mt-1">
-                  <span>$5/hr</span>
-                  <span>$100/hr</span>
+                  <span>Rs. 500</span>
+                  <span>Rs. 10,000</span>
                 </div>
               </div>
             )}
@@ -193,10 +194,10 @@ export default function MarketplacePage() {
                   <button onClick={() => setSearchInput('')}><X className="w-3 h-3" /></button>
                 </span>
               )}
-              {priceRange < 100 && (
+              {priceRange < 10000 && (
                 <span className="flex items-center gap-2 px-4 py-1.5 bg-primary/10 text-primary text-sm font-bold rounded-full border border-primary/20">
-                  Max ${priceRange}/hr
-                  <button onClick={() => setPriceRange(100)}><X className="w-3 h-3" /></button>
+                  Max Rs. {priceRange.toLocaleString()}
+                  <button onClick={() => setPriceRange(10000)}><X className="w-3 h-3" /></button>
                 </span>
               )}
               <button onClick={clearAll} className="text-xs text-muted-foreground hover:text-white font-bold underline transition-colors">

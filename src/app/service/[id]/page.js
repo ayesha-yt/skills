@@ -115,9 +115,9 @@ export default function ServiceDetailPage({ params: paramsPromise }) {
                   </div>
                   <div className="text-left md:text-right">
                     <div className="text-5xl font-black bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent leading-none mb-1">
-                      ${service.price}
+                      Rs. {service.price}
                     </div>
-                    <div className="text-sm text-muted-foreground font-bold uppercase tracking-widest">per hour</div>
+                    <div className="text-sm text-muted-foreground font-bold uppercase tracking-widest">per session</div>
                   </div>
                 </div>
 

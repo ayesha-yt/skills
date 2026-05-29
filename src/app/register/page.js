@@ -147,10 +147,12 @@ export default function RegisterPage() {
                     className="w-full pl-14 pr-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-bold appearance-none cursor-pointer"
                   >
                     <option value="" className="text-slate-900">Select university</option>
-                    <option value="mit" className="text-slate-900">MIT</option>
-                    <option value="stanford" className="text-slate-900">Stanford University</option>
-                    <option value="harvard" className="text-slate-900">Harvard University</option>
-                    <option value="berkeley" className="text-slate-900">UC Berkeley</option>
+                    <option value="iqra" className="text-slate-900">Iqra University</option>
+                    <option value="ku" className="text-slate-900">University of Karachi (KU)</option>
+                    <option value="nust" className="text-slate-900">NUST</option>
+                    <option value="fast" className="text-slate-900">FAST NUCES</option>
+                    <option value="ned" className="text-slate-900">NED University</option>
+                    <option value="lums" className="text-slate-900">LUMS</option>
                     <option value="other" className="text-slate-900">Other</option>
                   </select>
                 </div>

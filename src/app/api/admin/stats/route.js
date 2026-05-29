@@ -23,7 +23,7 @@ export async function GET() {
       stats: [
         { label: "Total Users", value: userCount.count.toLocaleString(), change: "+12.5%", trend: "up" },
         { label: "Active Services", value: serviceCount.count.toLocaleString(), change: "+8.3%", trend: "up" },
-        { label: "Revenue", value: `$${(revenue.total || 0).toLocaleString()}`, change: "+15.7%", trend: "up" },
+        { label: "Revenue", value: `Rs. ${(revenue.total || 0).toLocaleString()}`, change: "+15.7%", trend: "up" },
         { label: "Bookings", value: bookingCount.count.toLocaleString(), change: "+5.2%", trend: "up" }
       ],
       categories

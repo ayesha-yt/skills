@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import {
   LayoutDashboard,
   ShoppingBag,
@@ -14,7 +14,8 @@ import {
   Shield,
   GraduationCap,
   Menu,
-  X
+  X,
+  LogOut
 } from "lucide-react";
 
 export default function DashboardSidebar() {
@@ -134,14 +135,23 @@ export default function DashboardSidebar() {
               </div>
             </div>
           ) : authenticated ? (
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                {session?.user?.name ? session.user.name.substring(0, 2).toUpperCase() : 'U'}
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center gap-3 overflow-hidden">
+                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold flex-shrink-0">
+                  {session?.user?.name ? session.user.name.substring(0, 2).toUpperCase() : 'U'}
+                </div>
+                <div className="overflow-hidden">
+                  <div className="text-sm font-semibold truncate">{session?.user?.name}</div>
+                  <div className="text-xs text-muted-foreground truncate">{session?.user?.email}</div>
+                </div>
               </div>
-              <div className="overflow-hidden">
-                <div className="text-sm font-semibold truncate">{session?.user?.name}</div>
-                <div className="text-xs text-muted-foreground truncate">{session?.user?.email}</div>
-              </div>
+              <button
+                onClick={() => signOut({ callbackUrl: '/' })}
+                className="p-2 text-foreground/50 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-colors flex-shrink-0"
+                title="Log Out"
+              >
+                <LogOut className="w-5 h-5" />
+              </button>
             </div>
           ) : (
             <Link href="/login" onClick={() => setIsOpen(false)} className="flex items-center justify-center w-full py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-xl text-sm font-bold transition-all">
