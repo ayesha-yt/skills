@@ -91,7 +91,14 @@ async function getDb() {
           comment TEXT
         );
       `);
-      console.log('PostgreSQL tables checked/created successfully.');
+
+      // Auto-migrate PostgreSQL columns if they do not exist
+      await pool.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS role VARCHAR(50) DEFAULT 'user'").catch(() => {});
+      await pool.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP").catch(() => {});
+      await pool.query("ALTER TABLE services ADD COLUMN IF NOT EXISTS platform_fee DECIMAL(10,2) DEFAULT 0.0").catch(() => {});
+      await pool.query("ALTER TABLE services ADD COLUMN IF NOT EXISTS status VARCHAR(50) DEFAULT 'approved'").catch(() => {});
+
+      console.log('PostgreSQL tables checked/created/migrated successfully.');
     } catch (err) {
       console.error('Error auto-creating PostgreSQL tables:', err);
     }
